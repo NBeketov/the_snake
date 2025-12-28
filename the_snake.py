@@ -43,7 +43,6 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-# Базовый класс для игровых объектов
 class GameObject:
     """Базовый класс для игровых объектов."""
 
@@ -74,10 +73,7 @@ class Apple(GameObject):
     def __init__(self, occupied_positions=None, body_color=APPLE_COLOR):
         super().__init__(body_color=body_color)
 
-        if occupied_positions is None:
-            occupied_positions = []
-
-        self.randomize_position(occupied_positions)
+        self.randomize_position(occupied_positions or [])
 
     def randomize_position(self, occupied_positions):
         """Устанавливает случайную позицию, не занятую змейкой."""
@@ -97,9 +93,9 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс змейки."""
 
-    def __init__(self):
+    def __init__(self, body_color=SNAKE_COLOR):
         """Инициализирует змейку."""
-        super().__init__(body_color=SNAKE_COLOR)
+        super().__init__(body_color=body_color)
         self.reset()
 
     def reset(self):
@@ -200,7 +196,7 @@ def main():
             snake.length += 1
             apple.randomize_position(occupied_positions=snake.positions)
 
-        elif snake.get_head_position() in snake.positions[1:]:
+        elif snake.get_head_position() in snake.positions[4:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(occupied_positions=snake.positions)
